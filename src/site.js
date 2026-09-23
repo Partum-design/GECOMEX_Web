@@ -67,6 +67,10 @@ const badge = (thumb, href = '#contenido', label = 'Ir al contenido') => {
   </a>`;
 };
 
+// Small numbered label: "02   Tu socio estratégico"
+const kicker = (number, text) => `<p class="kicker"><span>${number}</span>${text}</p>`;
+const btn = (href, label, variant = '') => `<a class="button${variant ? ` button--${variant}` : ''}" href="${href}"><span>${label}</span><i>${icon('arrow')}</i></a>`;
+
 const socialLinks = () => `
   <a href="tel:+525580462775" aria-label="Llamar al 5580462775">${icon('phone')}</a>
   <a href="https://wa.me/525580462775" target="_blank" rel="noreferrer" aria-label="WhatsApp">${icon('whatsapp')}</a>
@@ -78,102 +82,130 @@ const nav = () => `
       <a class="brand" href="${pageLink('')}" aria-label="GECOMEX, inicio"><img src="${asset('logo.png')}" alt="GECOMEX" /></a>
       <nav class="main-nav" aria-label="Navegación principal">
         ${pages.map((item) => `<a data-nav="${item.key}" href="${pageLink(item.href)}">${item.label}</a>`).join('')}
-        <button class="search-toggle" type="button" aria-label="Abrir búsqueda" aria-expanded="false">${icon('search')}</button>
+        <button class="search-toggle" type="button" aria-label="Abrir búsqueda" aria-expanded="false">${icon('search')}<span>Buscar</span></button>
       </nav>
-      <a class="nav-cta" href="${pageLink('contacto/')}#cotizacion">Cotizar ${icon('arrow')}</a>
+      <a class="nav-cta" href="${pageLink('contacto/')}#cotizacion">Cotizar</a>
+      <a class="nav-phone" href="tel:+525580462775" aria-label="Llamar al 5580462775">${icon('phone')}<span>55 8046 2775</span></a>
       <button class="menu-toggle" type="button" aria-label="Abrir menú" aria-expanded="false">${icon('menu')}</button>
     </div>
   </header>
   <div class="search-panel" aria-hidden="true">
     <form class="search-form" action="${pageLink('blog/')}" method="get">
       <input class="field" type="search" name="s" placeholder="¿Qué quieres encontrar?" aria-label="Buscar en el sitio" />
-      <button class="button" type="submit">Buscar ${icon('arrow')}</button>
+      <button class="button" type="submit"><span>Buscar</span><i>${icon('arrow')}</i></button>
     </form>
   </div>`;
 
 const footer = () => `
   <footer class="footer">
-    <div class="container footer-top">
-      <div class="footer-brand"><img class="footer-logo" src="${asset('logo.png')}" alt="GECOMEX" /><p class="footer-tag">Comercio sin fronteras</p><div class="social">${socialLinks()}</div></div>
-      <div class="footer-contact">
-        <h3>Contacto</h3>
-        <p><strong>Dirección:</strong> Av. Clavería No. 237, Col. Clavería, Alcaldía Azcapotzalco, Ciudad de México, CP 02080.</p>
-        <p><strong>Teléfono:</strong> <a href="tel:+525580462775">5580462775</a></p>
-        <p><strong>WhatsApp:</strong> <a href="https://wa.me/525580462775" target="_blank" rel="noreferrer">Escríbenos</a></p>
-        <p><a href="mailto:info@gecomex.com.mx">info@gecomex.com.mx</a></p>
-        <p><a href="mailto:rafaelgelover@gecomex.com.mx">rafaelgelover@gecomex.com.mx</a></p>
+    <div class="container">
+      <div class="footer-cta">
+        <h2>¿Listo para mover tu operación?</h2>
+        ${btn(`${pageLink('contacto/')}#cotizacion`, 'Solicitar cotización')}
       </div>
-      <nav class="footer-nav" aria-label="Navegación del pie de página">
-        ${pages.map((item) => `<a href="${pageLink(item.href)}">${item.label} ${icon('arrowUpRight')}</a>`).join('')}
-      </nav>
+      <div class="footer-top">
+        <div class="footer-brand"><img class="footer-logo" src="${asset('logo.png')}" alt="GECOMEX" /><p class="footer-tag">Consultoría especializada en comercio internacional, logística y aduanas.</p><div class="social">${socialLinks()}</div></div>
+        <div class="footer-contact">
+          <h3>Contacto</h3>
+          <p>Av. Clavería No. 237, Col. Clavería, Alcaldía Azcapotzalco, Ciudad de México, CP 02080.</p>
+          <p><a href="tel:+525580462775">55 8046 2775</a> · <a href="https://wa.me/525580462775" target="_blank" rel="noreferrer">WhatsApp</a></p>
+          <p><a href="mailto:info@gecomex.com.mx">info@gecomex.com.mx</a><br /><a href="mailto:rafaelgelover@gecomex.com.mx">rafaelgelover@gecomex.com.mx</a></p>
+        </div>
+        <nav class="footer-nav" aria-label="Navegación del pie de página">
+          <h3>Navegación</h3>
+          ${pages.map((item) => `<a href="${pageLink(item.href)}">${item.label} ${icon('arrowUpRight')}</a>`).join('')}
+        </nav>
+      </div>
     </div>
     <div class="footer-mark" aria-hidden="true">GECOMEX</div>
-    <div class="footer-bottom">© ${new Date().getFullYear()} GECOMEX · Comercio sin fronteras</div>
+    <div class="footer-bottom container">
+      <span>© ${new Date().getFullYear()} GECOMEX · Comercio sin fronteras</span>
+      <span>Desarrollado por <a href="https://partumdesign.com.mx" target="_blank" rel="noopener">Partum Design</a></span>
+    </div>
   </footer>
   <a class="whatsapp" href="https://wa.me/525580462775" target="_blank" rel="noreferrer" aria-label="Contactar por WhatsApp">${icon('whatsapp')}</a>`;
 
 const hero = ({ image, video, poster = image, eyebrow = 'Consultoría en comercio internacional', title, whiteTitle, copy, facts = true }) => {
   const index = Math.max(0, pages.findIndex((item) => item.key === page));
-  const prev = pages[(index + pages.length - 1) % pages.length];
   const next = pages[(index + 1) % pages.length];
   const media = video
-    ? `<video class="hero-video" autoplay muted loop playsinline preload="metadata" poster="${asset(poster)}" aria-hidden="true"><source src="${asset(video)}" type="video/mp4" /></video><div class="hero-video-overlay" aria-hidden="true"></div>`
-    : `<div class="hero-photo" style="background-image:url('${asset(image)}')"></div>`;
+    ? `<video class="hero-media" autoplay muted loop playsinline preload="metadata" poster="${asset(poster)}" aria-hidden="true"><source src="${asset(video)}" type="video/mp4" /></video>`
+    : `<div class="hero-media" style="background-image:url('${asset(image)}')"></div>`;
+  const bottom = facts
+    ? `<div class="hero-strip">
+        <div class="strip-block strip-block--blue"><strong>360°</strong><div><h3>Soluciones integrales</h3><p>Despacho, logística y asesoría en un solo equipo.</p></div></div>
+        <div class="strip-block strip-block--steel"><strong>24/7</strong><div><h3>Seguimiento experto</h3><p>Visibilidad en cada etapa de tu operación.</p></div></div>
+        <div class="strip-block strip-block--glass"><strong>+10</strong><div><h3>Años de experiencia</h3><p>En comercio exterior y aduanas.</p></div></div>
+      </div>`
+    : `<div class="hero-foot">
+        <div class="hero-count"><strong>${pad(index + 1)}</strong><small>/${pad(pages.length)}</small></div>
+        <nav class="hero-dots" aria-label="Páginas del sitio">${pages.map((item, i) => `<a href="${pageLink(item.href)}" aria-label="${item.label}"${i === index ? ' aria-current="page"' : ''}></a>`).join('')}</nav>
+        <a class="hero-next" href="${pageLink(next.href)}"><img src="${asset(next.thumb)}" alt="" /><span><small>Siguiente</small>${next.label}</span>${icon('arrowUpRight')}</a>
+      </div>`;
   return `
   <section class="hero">
-    <div class="hero-bg" style="background-image:url('${asset(poster)}')"></div>
-    ${media}
-    <div class="hero-frame" aria-hidden="true"></div>
-    <div class="hero-inner">
-      <div class="hero-head">
-        <p class="eyebrow">${eyebrow}</p>
-        <h1>${title}<span>${whiteTitle}</span></h1>
+    <div class="hero-stage">
+      ${media}
+      <div class="hero-shade" aria-hidden="true"></div>
+      <div class="hero-meta"><span>${pad(index + 1)}</span><span>${eyebrow}</span><span class="hero-domain">gecomex.com.mx</span></div>
+      <div class="hero-main">
+        <h1 style="--chars:${Math.max(...`${title} ${whiteTitle}`.split(' ').map((word) => word.length))}">${title} <span>${whiteTitle}</span></h1>
+        <div class="hero-side">
+          <p class="hero-copy">${copy}</p>
+          <div class="hero-actions">${btn(pageLink('contacto/'), 'Cotizar ahora')}<a class="button button--light" href="#contenido"><span>Conocer más</span></a></div>
+        </div>
       </div>
       ${badge(next.thumb)}
-      <div class="hero-bottom">
-        <div class="hero-info">
-          <div class="hero-count"><span></span><strong>${pad(index + 1)}</strong><small>/${pad(pages.length)}</small></div>
-          ${facts ? `<ul class="hero-facts"><li><strong>360°</strong> Soluciones integrales</li><li><strong>24/7</strong> Seguimiento experto</li><li><strong>+10</strong> Años de experiencia</li></ul>` : ''}
-          <p class="hero-copy">${copy}</p>
-          <div class="hero-actions"><a class="button" href="${pageLink('contacto/')}">Cotizar ahora ${icon('arrow')}</a><a class="button button--glass" href="#contenido">Conocer más</a></div>
-        </div>
-        <nav class="hero-dots" aria-label="Páginas del sitio">${pages.map((item, i) => `<a href="${pageLink(item.href)}" aria-label="${item.label}"${i === index ? ' aria-current="page"' : ''}></a>`).join('')}</nav>
-        <div class="hero-next">
-          <div class="hero-next-head"><a href="${pageLink(prev.href)}" aria-label="Página anterior: ${prev.label}">${icon('arrowLeft')}</a><span>${pad(index + 1)}<i>..</i>${pad(pages.length)}</span><a href="${pageLink(next.href)}" aria-label="Página siguiente: ${next.label}">${icon('arrow')}</a></div>
-          <a class="hero-next-card" href="${pageLink(next.href)}"><img src="${asset(next.thumb)}" alt="" /><span>${next.label} ${icon('arrowUpRight')}</span></a>
-        </div>
-      </div>
-      <div class="hero-social">${socialLinks()}</div>
+      <div class="hero-vertical" aria-hidden="true">Comercio sin fronteras</div>
+      ${bottom}
     </div>
   </section>`;
 };
 
-const glassSplit = ({ image, kicker, heading, paragraphs, action }) => `
-  <section class="section section--light">
+const glassSplit = ({ image, number = '02', kicker: label, heading, paragraphs, action, word = 'ADUANAS' }) => `
+  <section class="section section--steel">
     <div class="container">
       <div class="glass-split reveal" style="background-image:url('${asset(image)}')">
         <div class="glass-panel">
-          <p class="kicker">${kicker}</p>
+          ${kicker(number, label)}
           <h2>${heading}</h2>
           ${paragraphs.map((text) => `<p>${text}</p>`).join('')}
           ${action}
         </div>
-        <div class="glass-side" aria-hidden="true"><span>GECOMEX</span></div>
+        <div class="glass-side" aria-hidden="true"><span>${word}</span></div>
       </div>
     </div>
   </section>`;
 
-const serviceRail = (heading = 'Nuestros servicios', intro = '') => `
+// Photo panel with giant headline and a blue/steel stat strip underneath.
+const impact = ({ image, number = '03', label = 'Impacto medible', heading, text }) => `
+  <section class="section section--dark">
+    <div class="container">
+      <div class="impact reveal">
+        <div class="impact-bg" style="background-image:url('${asset(image)}')" aria-hidden="true"></div>
+        <div class="impact-top">
+          <div>${kicker(number, label)}<h2>${heading}</h2></div>
+          <p>${text}</p>
+        </div>
+        <div class="impact-strip">
+          <div class="strip-block strip-block--blue"><strong>+10</strong><div><h3>Años de experiencia</h3><p>Acompañando importaciones y exportaciones de empresas mexicanas.</p></div></div>
+          <div class="strip-block strip-block--steel"><strong>7</strong><div><h3>Servicios especializados</h3><p>Del despacho aduanal a la asesoría legal, todo en un mismo lugar.</p></div></div>
+        </div>
+      </div>
+    </div>
+  </section>`;
+
+const serviceRail = (heading = 'Nuestros servicios', intro = '', number = '04') => `
   <section class="section section--dark" id="servicios">
     <div class="container rail-head reveal">
-      <div><p class="kicker">Lo que hacemos</p><h2>${heading}</h2></div>
+      <div>${kicker(number, 'Lo que hacemos')}<h2>${heading}</h2></div>
       <div class="rail-aside">
         ${intro ? `<p>${intro}</p>` : ''}
         <div class="rail-controls"><button class="circle-btn" type="button" data-rail-prev aria-label="Servicio anterior">${icon('arrowLeft')}</button><span class="rail-count"><strong data-rail-current>01</strong>/${pad(services.length)}</span><button class="circle-btn" type="button" data-rail-next aria-label="Servicio siguiente">${icon('arrow')}</button></div>
       </div>
     </div>
     <div class="rail" data-rail tabindex="0" aria-label="Servicios">
-      ${services.map((service, index) => `<article class="svc"><img src="${asset(service.image)}" alt="${service.title}" /><span class="svc-num">${pad(index + 1)}<small>/${pad(services.length)}</small></span><div class="svc-glass"><h3>${service.title}</h3><p>${service.text}</p><a class="svc-link" href="${pageLink('contacto/')}#cotizacion">Cotizar <span>${icon('arrow')}</span></a></div></article>`).join('')}
+      ${services.map((service, index) => `<article class="svc"><img src="${asset(service.image)}" alt="${service.title}" loading="lazy" /><div class="svc-body"><span class="svc-num">Servicio <b>${pad(index + 1)}</b></span><h3>${service.title}</h3><i class="svc-bar"></i><p>${service.text}</p><a class="svc-link" href="${pageLink('contacto/')}#cotizacion">Cotizar ${icon('arrowUpRight')}</a></div></article>`).join('')}
     </div>
     <div class="container"><div class="rail-progress"><span data-rail-bar></span></div></div>
   </section>`;
@@ -183,63 +215,72 @@ const band = ({ image, heading, text, cta }) => `
     <div class="band-bg" style="background-image:url('${asset(image)}')"></div>
     <div class="container">
       <div class="band-glass reveal">
+        <div class="band-word" aria-hidden="true">GECOMEX</div>
         <h2>${heading}</h2>
-        <div class="band-side"><p>${text}</p><a class="button button--white" href="${pageLink('contacto/')}">${cta} ${icon('arrow')}</a></div>
+        <div class="band-side"><p>${text}</p>${btn(pageLink('contacto/'), cta, 'white')}</div>
       </div>
     </div>
   </section>`;
 
-const contactBlock = () => `
+const contactBlock = (number = '05') => `
   <section class="section section--dark" id="cotizacion">
     <div class="container contact-block reveal">
-      <div class="contact-form"><p class="kicker">Hablemos de tu operación</p><h2>Envíanos un mensaje</h2>
+      <div class="contact-form">${kicker(number, 'Hablemos de tu operación')}<h2>Envíanos un mensaje</h2>
         <form data-contact-form>
           <input class="field" name="name" placeholder="Nombre completo" required />
           <input class="field" name="phone" placeholder="Teléfono de contacto" required />
           <input class="field" name="email" type="email" placeholder="Correo electrónico" required />
           <input class="field" name="subject" placeholder="Asunto del mensaje" required />
           <textarea class="field" name="message" placeholder="Escribe aquí tu mensaje" required></textarea>
-          <button class="button" type="submit">Solicitar una cotización ${icon('arrow')}</button>
+          <button class="button" type="submit"><span>Solicitar una cotización</span><i>${icon('arrow')}</i></button>
           <p class="form-status" role="status"></p>
         </form>
       </div>
-      <div class="contact-visual" style="background-image:url('${asset('hero-port.webp')}')" role="img" aria-label="Alianza comercial y logística">
+      <div class="contact-visual" style="background-image:url('${asset('hero-port.webp')}')" role="img" aria-label="Terminal portuaria con contenedores">
+        <div class="contact-visual-title" aria-hidden="true">Comercio<br />sin fronteras</div>
         ${badge('ship.jpg', '#cotizacion', 'Formulario de cotización')}
-        <div class="contact-chip"><strong>24/7</strong><span>Seguimiento experto</span></div>
+        <div class="contact-chip"><strong>24/7</strong><span>Seguimiento experto en cada operación</span></div>
       </div>
     </div>
   </section>`;
 
-const home = () => `${hero({ image: 'hero-port.webp', video: 'videos/supply-chain.mp4', poster: 'hero-port.webp', eyebrow: 'Consultoría especializada en', title: 'Comercio', whiteTitle: 'internacional', copy: 'Logística, importaciones, exportaciones y trámites aduanales para hacer crecer tu negocio.' })}
+const home = () => `${hero({ image: 'hero-port.webp', video: 'videos/supply-chain.mp4', poster: 'hero-port.webp', eyebrow: 'Consultoría especializada', title: 'Comercio', whiteTitle: 'internacional.', copy: 'Logística, importaciones, exportaciones y trámites aduanales para hacer crecer tu negocio con seguridad.' })}
   <main id="contenido">
-    ${glassSplit({ image: 'hero-port.webp', kicker: 'Tu socio estratégico', heading: 'Lleva tu negocio al mundo con GECOMEX', paragraphs: ['En GECOMEX hacemos que el comercio internacional sea más sencillo y eficiente. Somos especialistas en logística y aduanas, con soluciones integrales para acompañarte en cada paso.', 'De la documentación al traslado, convertimos la complejidad operativa en una ventaja para tu empresa.'], action: `<a class="inline-link" href="${pageLink('exsolv/')}">Conoce GECOMEX ${icon('arrow')}</a>` })}
+    ${glassSplit({ image: 'hero-port.webp', kicker: 'Tu socio estratégico', heading: 'Lleva tu negocio al mundo', paragraphs: ['En GECOMEX hacemos que el comercio internacional sea más sencillo y eficiente. Somos especialistas en logística y aduanas, con soluciones integrales para acompañarte en cada paso.', 'De la documentación al traslado, convertimos la complejidad operativa en una ventaja para tu empresa.'], action: btn(pageLink('exsolv/'), 'Conoce GECOMEX', 'white') })}
+    ${impact({ image: 'ship.jpg', heading: 'Probados. Confiables. Escalables.', text: 'Resultados reales que impulsan la eficiencia, la confianza y el crecimiento global de tu empresa.' })}
     ${serviceRail('Soluciones que mueven tu negocio', 'Experiencia, cumplimiento y acompañamiento para que tus mercancías lleguen a donde tienen que llegar.')}
     ${band({ image: 'hero-port.webp', heading: 'Soluciones aduaneras y logísticas para tu comercio internacional.', text: 'Cuéntanos qué necesitas y diseñamos el siguiente paso.', cta: 'Hablar con un experto' })}
     ${contactBlock()}
   </main>`;
 
-const exsolv = () => `${hero({ image: 'hero-port.webp', eyebrow: 'Tu socio estratégico', title: 'Logística', whiteTitle: 'global', copy: 'Transformamos tus desafíos logísticos en soluciones eficientes. Confía en nosotros para llevar tus operaciones al siguiente nivel.' })}
+const values = [
+  { icon: 'check', title: 'Misión', text: 'Proveer soluciones eficientes en logística y aduanas internacionales, optimizando cada operación con innovación, confianza y servicio personalizado.', height: 62 },
+  { icon: 'chart', title: 'Visión', text: 'Convertirnos en referentes globales en logística y aduanas, reconocidos por nuestra calidad, tecnología y compromiso con la sostenibilidad.', height: 78 },
+  { icon: 'users', title: 'Valores', text: 'Excelencia, integridad, innovación y trabajo en equipo para cuidar cada proceso y construir relaciones duraderas.', height: 94 }
+];
+
+const exsolv = () => `${hero({ image: 'hero-port.webp', eyebrow: 'Tu socio estratégico', title: 'Logística', whiteTitle: 'global.', copy: 'Transformamos tus desafíos logísticos en soluciones eficientes. Confía en nosotros para llevar tus operaciones al siguiente nivel.' })}
   <main id="contenido">
-    <section class="section section--light"><div class="container orbit-split">
-      <div class="orbit reveal"><div class="orbit-ring"><span></span></div><img src="${asset('hero-port.webp')}" alt="Terminal portuaria con buques y contenedores" loading="lazy" /></div>
-      <div class="copy reveal"><p class="kicker">GECOMEX</p><h2>Comercio sin fronteras</h2><p>En GECOMEX somos tu aliado estratégico en logística y aduanas internacionales. Nos especializamos en ofrecer soluciones integrales que simplifican los procesos de comercio exterior, garantizando eficiencia, seguridad y cumplimiento normativo.</p><p>Con un equipo experto y tecnología avanzada, convertimos cada reto en una oportunidad para impulsar tu negocio.</p><a class="button" href="${pageLink('contacto/')}">Contáctanos ${icon('arrow')}</a></div>
+    ${glassSplit({ image: 'ship.jpg', kicker: 'GECOMEX', heading: 'Comercio sin fronteras', word: 'LOGÍSTICA', paragraphs: ['En GECOMEX somos tu aliado estratégico en logística y aduanas internacionales. Nos especializamos en soluciones integrales que simplifican los procesos de comercio exterior, garantizando eficiencia, seguridad y cumplimiento normativo.', 'Con un equipo experto y tecnología avanzada, convertimos cada reto en una oportunidad para impulsar tu negocio.'], action: btn(pageLink('contacto/'), 'Contáctanos', 'white') })}
+    <section class="section section--steel"><div class="container">
+      <div class="bars reveal">
+        <div class="bars-intro">${kicker('03', 'Nuestra esencia')}<h2>Construidos para crecer contigo</h2><p>Una forma de trabajar que pone orden, claridad y resultados en cada operación de comercio exterior.</p></div>
+        <div class="bars-cols">${values.map((item, index) => `<article class="bar${index === values.length - 1 ? ' bar--blue' : ''}" style="--h:${item.height}%"><div class="bar-fill"><div class="bar-head"><span class="bar-num">${pad(index + 1)}</span><h3>${item.title}</h3></div><p>${item.text}</p></div></article>`).join('')}</div>
+      </div>
     </div></section>
-    <section class="section section--dark values"><div class="values-bg" style="background-image:url('${asset('hero-port.webp')}')"></div><div class="container"><div class="value-grid">
-      <article class="value-card reveal"><span class="value-num">01<small>/03</small></span><span class="value-icon">${icon('check')}</span><h3>Misión</h3><p>Proveer soluciones eficientes en logística y aduanas internacionales, optimizando cada operación con innovación, confianza y servicio personalizado.</p></article>
-      <article class="value-card reveal"><span class="value-num">02<small>/03</small></span><span class="value-icon">${icon('chart')}</span><h3>Visión</h3><p>Convertirnos en referentes globales en logística y aduanas, reconocidos por nuestra calidad, tecnología y compromiso con la sostenibilidad.</p></article>
-      <article class="value-card reveal"><span class="value-num">03<small>/03</small></span><span class="value-icon">${icon('users')}</span><h3>Valores</h3><p>Excelencia, integridad, innovación y trabajo en equipo para cuidar cada proceso y construir relaciones duraderas.</p></article>
-    </div></div></section>
-    <section class="section section--light"><div class="container">
-      <div class="section-head reveal"><div><p class="kicker">Dónde aportamos valor</p><h2>Soluciones para industrias que crecen</h2></div><p>Adaptamos nuestra experiencia a los sectores clave del comercio internacional.</p></div>
-      <div class="sectors reveal">${sectors.map((item, index) => `<article class="sector" tabindex="0"><img src="${asset(item.image)}" alt="${item.title}" loading="lazy" /><div class="sector-body"><span class="sector-num">${pad(index + 1)}</span><h3>${item.title}</h3><p>${item.text}</p></div></article>`).join('')}</div>
+    ${impact({ image: 'hero-port.webp', number: '04', heading: 'Experiencia que se mide.', text: 'Cada operación suma a una red de clientes que confían en nuestra precisión y cumplimiento.' })}
+    <section class="section section--dark"><div class="container">
+      <div class="section-head reveal"><div>${kicker('05', 'Dónde aportamos valor')}<h2>Industrias que crecen</h2></div><p>Adaptamos nuestra experiencia a los sectores clave del comercio internacional.</p></div>
+      <div class="sectors reveal">${sectors.map((item, index) => `<article class="sector" tabindex="0"><img src="${asset(item.image)}" alt="${item.title}" loading="lazy" /><div class="sector-body"><span class="sector-num">Sector <b>${pad(index + 1)}</b></span><h3>${item.title}</h3><i class="svc-bar"></i><p>${item.text}</p></div></article>`).join('')}</div>
     </div></section>
-    ${contactBlock()}
+    ${contactBlock('06')}
   </main>`;
 
-const soluciones = () => `${hero({ image: 'hero-port.webp', video: 'videos/aerial-terminal.mp4', poster: 'hero-port.webp', eyebrow: 'Servicios GECOMEX', title: 'Gestión', whiteTitle: 'aduanera', copy: 'Soluciones completas para el comercio internacional. Simplificamos procesos para que tú te enfoques en crecer.' })}
+const soluciones = () => `${hero({ image: 'hero-port.webp', video: 'videos/aerial-terminal.mp4', poster: 'hero-port.webp', eyebrow: 'Servicios GECOMEX', title: 'Gestión', whiteTitle: 'aduanera.', copy: 'Soluciones completas para el comercio internacional. Simplificamos procesos para que tú te enfoques en crecer.' })}
   <main id="contenido">
-    ${glassSplit({ image: 'hero-port.webp', kicker: 'Logística y aduanas internacionales', heading: 'Operaciones claras, negocios en movimiento', paragraphs: ['Contamos con amplia experiencia en despacho aduanal, importaciones, exportaciones, logística eficiente y asesoría especializada para garantizar el cumplimiento de normativas internacionales.'], action: `<a class="button button--white" href="${pageLink('contacto/')}">Contáctanos ${icon('arrow')}</a>` })}
-    ${serviceRail('Nuestros servicios', 'Elige el acompañamiento que tu operación necesita y déjanos cuidar los detalles.')}
+    ${glassSplit({ image: 'dispatch.jpg', kicker: 'Logística y aduanas internacionales', heading: 'Operaciones claras, negocios en movimiento', word: 'SERVICIOS', paragraphs: ['Contamos con amplia experiencia en despacho aduanal, importaciones, exportaciones, logística eficiente y asesoría especializada para garantizar el cumplimiento de normativas internacionales.'], action: btn(pageLink('contacto/'), 'Contáctanos', 'white') })}
+    ${serviceRail('Nuestros servicios', 'Elige el acompañamiento que tu operación necesita y déjanos cuidar los detalles.', '03')}
+    ${contactBlock('04')}
   </main>`;
 
 const blogPosts = [
@@ -247,24 +288,27 @@ const blogPosts = [
   { image: 'blog-2.jpg', date: '04', title: 'Guía rápida para simplificar tus operaciones de exportación', excerpt: 'Desde la documentación hasta la logística, reunimos una guía para que tus operaciones de exportación sean mucho más sencillas.', href: 'blog/articulo-exportacion.html' }
 ];
 
-const blog = () => `${hero({ image: 'hero-port.webp', eyebrow: 'Ideas para crecer', title: 'Nuestro', whiteTitle: 'blog', copy: 'Consejos, tendencias y guías prácticas para triunfar en el comercio internacional.', facts: false })}
+const blog = () => `${hero({ image: 'hero-port.webp', eyebrow: 'Ideas para crecer', title: 'Nuestro', whiteTitle: 'blog.', copy: 'Consejos, tendencias y guías prácticas para triunfar en el comercio internacional.', facts: false })}
   <main id="contenido">
-    <section class="section section--light"><div class="container">
-      <div class="section-head reveal"><div><p class="kicker">GECOMEX comparte</p><h2>Explora nuestros blogs</h2></div><p>Información clara para tomar mejores decisiones en tu operación global.</p></div>
-      <div class="post-list">${blogPosts.map((post) => `<article class="post reveal"><a class="post-media" href="${pageLink(post.href)}" tabindex="-1" aria-hidden="true"><img src="${asset(post.image)}" alt="" loading="lazy" /><span class="post-date"><strong>${post.date}</strong><small>DIC 2024</small></span></a><div class="post-content"><h3><a href="${pageLink(post.href)}">${post.title}</a></h3><p>${post.excerpt}</p><a class="inline-link" href="${pageLink(post.href)}">Leer más ${icon('arrow')}</a></div></article>`).join('')}</div>
+    <section class="section section--steel"><div class="container">
+      <div class="section-head reveal"><div>${kicker('02', 'GECOMEX comparte')}<h2>Explora nuestros blogs</h2></div><p>Información clara para tomar mejores decisiones en tu operación global.</p></div>
+      <div class="post-list">${blogPosts.map((post, index) => `<article class="post reveal"><a class="post-media" href="${pageLink(post.href)}" tabindex="-1" aria-hidden="true"><img src="${asset(post.image)}" alt="" loading="lazy" /><span class="post-date"><strong>${post.date}</strong><small>DIC<br />2024</small></span><span class="post-part">Artículo <b>${pad(index + 1)}</b></span></a><div class="post-content"><h3><a href="${pageLink(post.href)}">${post.title}</a></h3><p>${post.excerpt}</p><a class="inline-link" href="${pageLink(post.href)}">Leer más ${icon('arrow')}</a></div></article>`).join('')}</div>
     </div></section>
     ${band({ image: 'hero-port.webp', heading: '¿Tienes una operación en mente?', text: 'Hablemos de cómo hacerla avanzar.', cta: 'Solicitar asesoría' })}
-    ${contactBlock()}
+    ${contactBlock('03')}
   </main>`;
 
-const contacto = () => `${hero({ image: 'hero-port.webp', video: 'videos/worker.mp4', poster: 'hero-port.webp', eyebrow: 'Estamos para ayudarte', title: 'Contácta', whiteTitle: 'nos', copy: 'Expertos en logística y aduanas para acompañar tu próxima operación.', facts: false })}
+const contacto = () => `${hero({ image: 'hero-port.webp', video: 'videos/worker.mp4', poster: 'hero-port.webp', eyebrow: 'Estamos para ayudarte', title: 'Contácta', whiteTitle: 'nos.', copy: 'Expertos en logística y aduanas para acompañar tu próxima operación.', facts: false })}
   <main id="contenido">
-    <section class="section section--light"><div class="container"><div class="contact-cards">
-      <article class="contact-card reveal"><span class="contact-icon">${icon('phone')}</span><h3>Llámanos</h3><p><a href="tel:+525580462775">5580462775</a><br /><a href="https://wa.me/525580462775" target="_blank" rel="noreferrer">WhatsApp</a></p></article>
-      <article class="contact-card reveal"><span class="contact-icon">${icon('mail')}</span><h3>Correo</h3><p><a href="mailto:info@gecomex.com.mx">info@gecomex.com.mx</a><br /><a href="mailto:rafaelgelover@gecomex.com.mx">rafaelgelover@gecomex.com.mx</a></p></article>
-      <article class="contact-card reveal"><span class="contact-icon">${icon('building')}</span><h3>Oficinas</h3><p>Av. Clavería No. 237, Col. Clavería<br />Alcaldía Azcapotzalco, CDMX<br />México. CP 02080</p></article>
-    </div></div></section>
-    ${contactBlock()}
+    <section class="section section--steel"><div class="container">
+      <div class="section-head reveal"><div>${kicker('02', 'Canales directos')}<h2>Siempre cerca de ti</h2></div><p>Elige el medio que prefieras: respondemos rápido y con información clara.</p></div>
+      <div class="contact-cards">
+        <article class="contact-card reveal"><span class="contact-icon">${icon('phone')}</span><span class="contact-num">01</span><h3>Llámanos</h3><p><a href="tel:+525580462775">55 8046 2775</a><br /><a href="https://wa.me/525580462775" target="_blank" rel="noreferrer">WhatsApp</a></p></article>
+        <article class="contact-card reveal"><span class="contact-icon">${icon('mail')}</span><span class="contact-num">02</span><h3>Correo</h3><p><a href="mailto:info@gecomex.com.mx">info@gecomex.com.mx</a><br /><a href="mailto:rafaelgelover@gecomex.com.mx">rafaelgelover@gecomex.com.mx</a></p></article>
+        <article class="contact-card reveal"><span class="contact-icon">${icon('building')}</span><span class="contact-num">03</span><h3>Oficinas</h3><p>Av. Clavería No. 237, Col. Clavería<br />Alcaldía Azcapotzalco, CDMX<br />México. CP 02080</p></article>
+      </div>
+    </div></section>
+    ${contactBlock('03')}
   </main>`;
 
 const article = (which) => {
@@ -272,8 +316,8 @@ const article = (which) => {
   const title = first ? 'Cómo llevar tu negocio al siguiente nivel con el comercio internacional' : 'Guía rápida para simplificar tus operaciones de exportación';
   const image = first ? 'blog-1.jpg' : 'blog-2.jpg';
   return `<main class="article" id="contenido">
-    <header class="article-hero"><div class="article-hero-bg" style="background-image:url('${asset(image)}')"></div><div class="container"><p class="kicker">Comercio internacional · 04 diciembre, 2024</p><h1>${title}</h1><p class="article-meta">Por GECOMEX · Lectura de 4 min</p></div></header>
-    <div class="article-body"><div class="container article-layout"><article><img class="article-cover" src="${asset(image)}" alt="${title}" /><div class="article-copy">${first ? `<p>El comercio internacional es una de las estrategias más efectivas para hacer crecer un negocio y abrirse a nuevos mercados. No importa si tienes una empresa pequeña o una gran corporación: exportar tus productos puede convertirse en una oportunidad real de expansión.</p><h2>Empieza con una operación clara</h2><p>Antes de mover una mercancía, define el mercado, revisa los requisitos de entrada y construye una ruta logística que contemple tiempos, costos y documentación. Una planeación ordenada reduce riesgos y te permite tomar decisiones con información.</p><p>El acompañamiento de especialistas en aduanas y logística ayuda a que cada parte del proceso esté alineada, desde la clasificación arancelaria hasta la entrega final.</p>` : `<p>Exportar tus productos puede ser un gran paso para expandir tu negocio a mercados internacionales, pero también puede ser un proceso complejo. La buena noticia es que, con una ruta de trabajo clara, es posible simplificar cada etapa.</p><h2>Los cuatro puntos que debes revisar</h2><p>Define el producto y su mercado, prepara la documentación, confirma el cumplimiento normativo y elige una logística con seguimiento. Estos cuatro puntos te dan una base sólida para operar con menos incertidumbre.</p><p>En GECOMEX acompañamos a empresas que buscan convertir sus operaciones internacionales en procesos eficientes, medibles y sostenibles.</p>`}</div><a class="inline-link" href="${pageLink('blog/')}">Volver al blog ${icon('arrow')}</a></article><aside class="article-aside"><p class="kicker">GECOMEX</p><p>¿Quieres hablar de tu próxima importación o exportación?</p><a class="button button--white" href="${pageLink('contacto/')}">Contáctanos ${icon('arrow')}</a></aside></div></div>
+    <header class="article-hero"><div class="article-stage"><div class="article-hero-bg" style="background-image:url('${asset(image)}')"></div><div class="container">${kicker(first ? '01' : '02', 'Comercio internacional · 04 diciembre, 2024')}<h1>${title}</h1><p class="article-meta">Por GECOMEX · Lectura de 4 min</p></div></div></header>
+    <div class="article-body"><div class="container article-layout"><article><img class="article-cover" src="${asset(image)}" alt="${title}" /><div class="article-copy">${first ? `<p>El comercio internacional es una de las estrategias más efectivas para hacer crecer un negocio y abrirse a nuevos mercados. No importa si tienes una empresa pequeña o una gran corporación: exportar tus productos puede convertirse en una oportunidad real de expansión.</p><h2>Empieza con una operación clara</h2><p>Antes de mover una mercancía, define el mercado, revisa los requisitos de entrada y construye una ruta logística que contemple tiempos, costos y documentación. Una planeación ordenada reduce riesgos y te permite tomar decisiones con información.</p><p>El acompañamiento de especialistas en aduanas y logística ayuda a que cada parte del proceso esté alineada, desde la clasificación arancelaria hasta la entrega final.</p>` : `<p>Exportar tus productos puede ser un gran paso para expandir tu negocio a mercados internacionales, pero también puede ser un proceso complejo. La buena noticia es que, con una ruta de trabajo clara, es posible simplificar cada etapa.</p><h2>Los cuatro puntos que debes revisar</h2><p>Define el producto y su mercado, prepara la documentación, confirma el cumplimiento normativo y elige una logística con seguimiento. Estos cuatro puntos te dan una base sólida para operar con menos incertidumbre.</p><p>En GECOMEX acompañamos a empresas que buscan convertir sus operaciones internacionales en procesos eficientes, medibles y sostenibles.</p>`}</div><a class="inline-link" href="${pageLink('blog/')}">Volver al blog ${icon('arrow')}</a></article><aside class="article-aside">${kicker('GX', 'GECOMEX')}<p>¿Quieres hablar de tu próxima importación o exportación?</p>${btn(pageLink('contacto/'), 'Contáctanos')}</aside></div></div>
   </main>`;
 };
 
