@@ -181,9 +181,12 @@ searchToggle?.addEventListener('click', () => {
 document.querySelectorAll('[data-contact-form]').forEach((form) => {
   form.addEventListener('submit', (event) => {
     event.preventDefault();
+    const data = new FormData(form);
     const status = form.querySelector('.form-status');
-    status.textContent = '¡Gracias! Recibimos tu mensaje. Te contactaremos muy pronto.';
-    form.reset();
+    const subject = encodeURIComponent(data.get('subject') || 'Solicitud de cotización GECOMEX');
+    const body = encodeURIComponent(`Nombre: ${data.get('name')}\nTeléfono: ${data.get('phone')}\nCorreo: ${data.get('email')}\n\n${data.get('message')}`);
+    status.textContent = 'Abriendo tu correo para completar la solicitud…';
+    window.location.href = `mailto:info@gecomex.com.mx?subject=${subject}&body=${body}`;
   });
 });
 
