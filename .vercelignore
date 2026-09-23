@@ -1,0 +1,10 @@
+# Original 4K sources stay local; production uses the optimized copies in public/assets.
+0_Supply_Chain_Management_3840x2160.mp4
+soluciones/2125778_Aerial_Aerial_View_3840x2160.mp4
+contacto/0_Woman_Worker_3840x2160.mp4
+
+# Local-only visual references and generated output.
+referencia/
+dist/
+node_modules/
+.git/
