@@ -48,6 +48,7 @@ const nav = () => `
         <a data-nav="contacto" href="${pageLink('contacto/')}">Contacto</a>
         <button class="search-toggle" type="button" aria-label="Abrir búsqueda" aria-expanded="false">${icon('search')}</button>
       </nav>
+      <a class="nav-cta" href="${pageLink('contacto/')}#cotizacion">Cotizar ${icon('arrow')}</a>
       <button class="menu-toggle" type="button" aria-label="Abrir menú" aria-expanded="false">${icon('menu')}</button>
     </div>
   </header>
@@ -61,7 +62,7 @@ const nav = () => `
 const footer = () => `
   <footer class="footer">
     <div class="container footer-grid">
-      <div><img class="footer-logo" src="${asset('logo.png')}" alt="GECOMEX" /></div>
+      <div><img class="footer-logo" src="${asset('logo.png')}" alt="GECOMEX" /><p class="footer-tag">Comercio sin fronteras</p></div>
       <div>
         <h3>Contacto</h3>
         <p><strong>Dirección:</strong> Av. Clavería No. 237, Col. Clavería, Alcaldía Azcapotzalco, Ciudad de México, CP 02080.</p>
@@ -74,30 +75,31 @@ const footer = () => `
         <a href="${pageLink('')}">Inicio</a><a href="${pageLink('exsolv/')}">GECOMEX</a><a href="${pageLink('soluciones/')}">Servicios</a><a href="${pageLink('blog/')}">Blog</a><a href="${pageLink('contacto/')}">Contacto</a>
       </nav>
     </div>
+    <div class="footer-mark" aria-hidden="true">GECOMEX</div>
     <div class="footer-bottom">© ${new Date().getFullYear()} GECOMEX · Comercio sin fronteras</div>
   </footer>
   <a class="whatsapp" href="https://wa.me/525580462775" target="_blank" rel="noreferrer" aria-label="Contactar por WhatsApp">${icon('whatsapp')}</a>`;
 
 const hero = ({ image, eyebrow = 'Consultoría en comercio internacional', title, whiteTitle, copy, facts = true }) => `
-  <section class="hero">
+  <section class="hero${facts ? '' : ' hero--compact'}">
     <div class="hero-media" style="background-image:url('${asset(image)}')"></div>
+    <div class="hero-ghost" aria-hidden="true">GECOMEX</div>
     <div class="hero-inner">
-      <div class="hero-copy">
-        <p class="eyebrow">${eyebrow}</p>
-        <h1>${title}<span>${whiteTitle}</span></h1>
-        <div class="hero-rule"></div>
-        <p>${copy}</p>
-        <div class="hero-actions"><a class="button" href="${pageLink('contacto/')}">Cotizar ahora ${icon('arrow')}</a><a class="button button--ghost" href="#contenido">Conocer más</a></div>
-        ${facts ? `<div class="hero-facts"><div class="hero-fact"><strong>360°</strong><span>Soluciones integrales</span></div><div class="hero-fact"><strong>24/7</strong><span>Seguimiento experto</span></div><div class="hero-fact"><strong>+10</strong><span>Años de experiencia</span></div></div>` : ''}
+      <p class="eyebrow">${eyebrow}</p>
+      <h1>${title}<span>${whiteTitle}</span></h1>
+      <div class="hero-row">
+        <div class="hero-card"><p>${copy}</p></div>
+        <div class="hero-actions"><a class="button" href="${pageLink('contacto/')}">Cotizar ahora ${icon('arrow')}</a><a class="button button--light" href="#contenido">Conocer más</a></div>
       </div>
+      ${facts ? `<div class="hero-facts"><div class="hero-fact"><strong>360°</strong><span>Soluciones integrales</span></div><div class="hero-fact"><strong>24/7</strong><span>Seguimiento experto</span></div><div class="hero-fact"><strong>+10</strong><span>Años de experiencia</span></div></div>` : ''}
     </div>
   </section>`;
 
 const serviceGrid = (heading = 'Nuestros servicios', intro = '') => `
   <section class="section" id="servicios">
     <div class="container">
-      <div class="section-heading section-heading--center reveal"><p class="section-kicker">Lo que hacemos</p><h2>${heading}</h2>${intro ? `<p>${intro}</p>` : ''}</div>
-      <div class="service-grid">${services.map((service, index) => `<article class="service-card reveal"><img src="${asset(service.image)}" alt="${service.title}" loading="lazy" /><h3>${service.title}</h3><p>${service.text}</p><a class="button" href="${pageLink('contacto/')}#cotizacion">Cotizar ${icon('arrow')}</a></article>`).join('')}</div>
+      <div class="section-heading reveal"><p class="section-kicker">Lo que hacemos</p><h2>${heading}</h2>${intro ? `<p>${intro}</p>` : ''}</div>
+      <div class="service-grid">${services.map((service, index) => `<article class="service-card reveal"><img src="${asset(service.image)}" alt="${service.title}" loading="lazy" /><div class="service-card-body"><span class="card-num">${String(index + 1).padStart(2, '0')}</span><h3>${service.title}</h3><p>${service.text}</p><a class="card-link" href="${pageLink('contacto/')}#cotizacion">Cotizar ${icon('arrow')}</a></div></article>`).join('')}</div>
     </div>
   </section>`;
 
@@ -115,7 +117,7 @@ const contactBlock = () => `
           <p class="form-status" role="status"></p>
         </form>
       </div>
-      <div class="contact-image" style="background-image:url('${asset('legal.jpg')}')" role="img" aria-label="Alianza comercial y logística"></div>
+      <div class="contact-image" style="background-image:url('${asset('legal.jpg')}')" role="img" aria-label="Alianza comercial y logística"><div class="contact-badge"><strong>24/7</strong><span>Seguimiento experto</span></div></div>
     </div>
   </section>`;
 
@@ -123,15 +125,15 @@ const home = () => `${hero({ image: 'trade.jpg', eyebrow: 'Consultoría especial
   <main id="contenido">
     <section class="section"><div class="container split"><div class="copy reveal"><p class="section-kicker">Tu socio estratégico</p><h2>Lleva tu negocio al mundo con GECOMEX</h2><p>En GECOMEX hacemos que el comercio internacional sea más sencillo y eficiente. Somos especialistas en logística y aduanas, con soluciones integrales para acompañarte en cada paso.</p><p>De la documentación al traslado, convertimos la complejidad operativa en una ventaja para tu empresa.</p><a class="inline-link" href="${pageLink('exsolv/')}">Conoce GECOMEX ${icon('arrow')}</a></div><div class="split-media reveal"><img src="${asset('home-automation.jpg')}" alt="Tecnología aplicada a la logística" loading="lazy" /></div></div></section>
     ${serviceGrid('Soluciones que mueven tu negocio', 'Experiencia, cumplimiento y acompañamiento para que tus mercancías lleguen a donde tienen que llegar.')}
-    <div class="quote-band"><div class="container quote-band-inner"><div><h2>Soluciones aduaneras y logísticas para tu comercio internacional.</h2><p>Cuéntanos qué necesitas y diseñamos el siguiente paso.</p></div><a class="button" href="${pageLink('contacto/')}">Hablar con un experto ${icon('arrow')}</a></div></div>
+    <div class="quote-band"><div class="container quote-band-inner reveal"><div class="quote-band-main"><h2>Soluciones aduaneras y logísticas para tu comercio internacional.</h2></div><div class="quote-band-side"><p>Cuéntanos qué necesitas y diseñamos el siguiente paso.</p><a class="button button--dark" href="${pageLink('contacto/')}">Hablar con un experto ${icon('arrow')}</a></div></div></div>
     ${contactBlock()}
   </main>`;
 
 const exsolv = () => `${hero({ image: 'logistics.jpg', eyebrow: 'Tu socio estratégico', title: 'Logística', whiteTitle: 'global', copy: 'Transformamos tus desafíos logísticos en soluciones eficientes. Confía en nosotros para llevar tus operaciones al siguiente nivel.' })}
   <main id="contenido">
     <section class="section"><div class="container split split--reverse"><div class="split-media split-media--portrait reveal"><img src="${asset('ship.jpg')}" alt="Buque transportando contenedores" loading="lazy" /></div><div class="copy reveal"><p class="section-kicker">GECOMEX</p><h2>Comercio sin fronteras</h2><p>En GECOMEX somos tu aliado estratégico en logística y aduanas internacionales. Nos especializamos en ofrecer soluciones integrales que simplifican los procesos de comercio exterior, garantizando eficiencia, seguridad y cumplimiento normativo.</p><p>Con un equipo experto y tecnología avanzada, convertimos cada reto en una oportunidad para impulsar tu negocio.</p><a class="button" href="${pageLink('contacto/')}">Contáctanos ${icon('arrow')}</a></div></div></section>
-    <section class="section section--muted"><div class="container"><div class="value-grid"><article class="value-card reveal">${icon('check')}<h3>Misión</h3><p>Proveer soluciones eficientes en logística y aduanas internacionales, optimizando cada operación con innovación, confianza y servicio personalizado.</p></article><article class="value-card reveal">${icon('chart')}<h3>Visión</h3><p>Convertirnos en referentes globales en logística y aduanas, reconocidos por nuestra calidad, tecnología y compromiso con la sostenibilidad.</p></article><article class="value-card reveal">${icon('users')}<h3>Valores</h3><p>Excelencia, integridad, innovación y trabajo en equipo para cuidar cada proceso y construir relaciones duraderas.</p></article></div></div></section>
-    <section class="section"><div class="container"><div class="section-heading section-heading--center reveal"><p class="section-kicker">Dónde aportamos valor</p><h2>Soluciones para industrias que crecen</h2><p>Adaptamos nuestra experiencia a los sectores clave del comercio internacional.</p></div><div class="sector-grid">${[{ image: 'sector-agro.jpg', title: 'Agroindustria', text: 'Facilitamos la exportación e importación de productos agrícolas y alimentos procesados.' }, { image: 'sector-manufacturing.jpg', title: 'Manufactura', text: 'Gestionamos la logística de maquinaria, componentes y productos terminados.' }, { image: 'sector-health.jpg', title: 'Salud y farmacéutica', text: 'Aseguramos el manejo especializado de insumos médicos y productos farmacéuticos.' }, { image: 'sector-tech.jpg', title: 'Tecnología', text: 'Coordinamos la logística de equipos electrónicos, iluminación y soluciones tecnológicas.' }].map(item => `<article class="sector-card reveal"><img src="${asset(item.image)}" alt="${item.title}" loading="lazy" /><h3>${item.title}</h3><p>${item.text}</p></article>`).join('')}</div></div></section>
+    <section class="section section--light"><div class="container"><div class="value-grid"><article class="value-card reveal"><span class="card-num">01</span>${icon('check')}<h3>Misión</h3><p>Proveer soluciones eficientes en logística y aduanas internacionales, optimizando cada operación con innovación, confianza y servicio personalizado.</p></article><article class="value-card reveal"><span class="card-num">02</span>${icon('chart')}<h3>Visión</h3><p>Convertirnos en referentes globales en logística y aduanas, reconocidos por nuestra calidad, tecnología y compromiso con la sostenibilidad.</p></article><article class="value-card reveal"><span class="card-num">03</span>${icon('users')}<h3>Valores</h3><p>Excelencia, integridad, innovación y trabajo en equipo para cuidar cada proceso y construir relaciones duraderas.</p></article></div></div></section>
+    <section class="section"><div class="container"><div class="section-heading reveal"><p class="section-kicker">Dónde aportamos valor</p><h2>Soluciones para industrias que crecen</h2><p>Adaptamos nuestra experiencia a los sectores clave del comercio internacional.</p></div><div class="sector-grid">${[{ image: 'sector-agro.jpg', title: 'Agroindustria', text: 'Facilitamos la exportación e importación de productos agrícolas y alimentos procesados.' }, { image: 'sector-manufacturing.jpg', title: 'Manufactura', text: 'Gestionamos la logística de maquinaria, componentes y productos terminados.' }, { image: 'sector-health.jpg', title: 'Salud y farmacéutica', text: 'Aseguramos el manejo especializado de insumos médicos y productos farmacéuticos.' }, { image: 'sector-tech.jpg', title: 'Tecnología', text: 'Coordinamos la logística de equipos electrónicos, iluminación y soluciones tecnológicas.' }].map((item, index) => `<article class="sector-card reveal"><img src="${asset(item.image)}" alt="${item.title}" loading="lazy" /><div class="sector-card-body"><span class="card-num">${String(index + 1).padStart(2, '0')}</span><h3>${item.title}</h3><p>${item.text}</p></div></article>`).join('')}</div></div></section>
     ${contactBlock()}
   </main>`;
 
@@ -144,10 +146,10 @@ const blogPosts = [
 ];
 
 const blog = () => `${hero({ image: 'trade.jpg', eyebrow: 'Ideas para crecer', title: 'Nuestro', whiteTitle: 'blog', copy: 'Consejos, tendencias y guías prácticas para triunfar en el comercio internacional.', facts: false })}
-  <main id="contenido"><section class="section"><div class="container"><div class="section-heading section-heading--center reveal"><p class="section-kicker">GECOMEX comparte</p><h2>Explora nuestros blogs</h2><p>Información clara para tomar mejores decisiones en tu operación global.</p></div><div class="post-list">${blogPosts.map(post => `<article class="post reveal"><div class="post-date"><strong>${post.date}</strong><small>DIC<br />2024</small></div><img src="${asset(post.image)}" alt="${post.title}" loading="lazy" /><div class="post-content"><h3>${post.title}</h3><p>${post.excerpt}</p><a class="inline-link" href="${pageLink(post.href)}">Leer más ${icon('arrow')}</a></div></article>`).join('')}</div></div></section><div class="quote-band"><div class="container quote-band-inner"><div><h2>¿Tienes una operación en mente?</h2><p>Hablemos de cómo hacerla avanzar.</p></div><a class="button" href="${pageLink('contacto/')}">Solicitar asesoría ${icon('arrow')}</a></div></div>${contactBlock()}</main>`;
+  <main id="contenido"><section class="section section--light"><div class="container"><div class="section-heading reveal"><p class="section-kicker">GECOMEX comparte</p><h2>Explora nuestros blogs</h2><p>Información clara para tomar mejores decisiones en tu operación global.</p></div><div class="post-list">${blogPosts.map(post => `<article class="post reveal"><div class="post-date"><strong>${post.date}</strong><small>DIC<br />2024</small></div><img src="${asset(post.image)}" alt="${post.title}" loading="lazy" /><div class="post-content"><h3>${post.title}</h3><p>${post.excerpt}</p><a class="inline-link" href="${pageLink(post.href)}">Leer más ${icon('arrow')}</a></div></article>`).join('')}</div></div></section><div class="quote-band"><div class="container quote-band-inner reveal"><div class="quote-band-main"><h2>¿Tienes una operación en mente?</h2></div><div class="quote-band-side"><p>Hablemos de cómo hacerla avanzar.</p><a class="button button--dark" href="${pageLink('contacto/')}">Solicitar asesoría ${icon('arrow')}</a></div></div></div>${contactBlock()}</main>`;
 
 const contacto = () => `${hero({ image: 'logistics.jpg', eyebrow: 'Estamos para ayudarte', title: 'Contácta', whiteTitle: 'nos', copy: 'Expertos en logística y aduanas para acompañar tu próxima operación.', facts: false })}
-  <main id="contenido"><section class="section"><div class="container"><div class="contact-cards"><article class="contact-card reveal">${icon('phone')}<h3>Llámanos</h3><p><a href="tel:+525580462775">5580462775</a><br /><br /><a href="https://wa.me/525580462775" target="_blank" rel="noreferrer">WhatsApp</a></p></article><article class="contact-card reveal">${icon('mail')}<h3>Correo</h3><p><a href="mailto:info@gecomex.com.mx">info@gecomex.com.mx</a><br /><br /><a href="mailto:rafaelgelover@gecomex.com.mx">rafaelgelover@gecomex.com.mx</a></p></article><article class="contact-card reveal">${icon('building')}<h3>Oficinas</h3><p>Av. Clavería No. 237, Col. Clavería<br />Alcaldía Azcapotzalco, CDMX<br />México. CP 02080</p></article></div></div></section>${contactBlock()}</main>`;
+  <main id="contenido"><section class="section section--light"><div class="container"><div class="contact-cards"><article class="contact-card reveal"><span class="contact-icon">${icon('phone')}</span><h3>Llámanos</h3><p><a href="tel:+525580462775">5580462775</a><br /><br /><a href="https://wa.me/525580462775" target="_blank" rel="noreferrer">WhatsApp</a></p></article><article class="contact-card reveal"><span class="contact-icon">${icon('mail')}</span><h3>Correo</h3><p><a href="mailto:info@gecomex.com.mx">info@gecomex.com.mx</a><br /><br /><a href="mailto:rafaelgelover@gecomex.com.mx">rafaelgelover@gecomex.com.mx</a></p></article><article class="contact-card reveal"><span class="contact-icon">${icon('building')}</span><h3>Oficinas</h3><p>Av. Clavería No. 237, Col. Clavería<br />Alcaldía Azcapotzalco, CDMX<br />México. CP 02080</p></article></div></div></section>${contactBlock()}</main>`;
 
 const article = (which) => {
   const first = which === 'article-1';
@@ -161,6 +163,11 @@ const main = pageContent[page] ? pageContent[page]() : article(page);
 app.innerHTML = `${nav()}${main}${footer()}`;
 
 document.querySelector(`[data-nav="${page.startsWith('article') ? 'blog' : page}"]`)?.classList.add('is-active');
+
+const header = document.querySelector('.site-header');
+const onScroll = () => header?.classList.toggle('is-scrolled', window.scrollY > 24);
+onScroll();
+window.addEventListener('scroll', onScroll, { passive: true });
 
 const menuButton = document.querySelector('.menu-toggle');
 const mainNav = document.querySelector('.main-nav');
