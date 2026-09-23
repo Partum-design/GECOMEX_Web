@@ -3,7 +3,10 @@ const app = document.querySelector('#app');
 const page = body.dataset.page || 'home';
 const base = body.dataset.base || 'assets/';
 const root = base.startsWith('../') ? '../' : './';
-const asset = (name) => `${base}${name}`;
+const asset = (name) => {
+  const optimized = /\.jpe?g$/i.test(name) ? name.replace(/\.jpe?g$/i, '.webp') : name;
+  return `${base}${optimized}`;
+};
 const pageLink = (name) => `${root}${name}`;
 const pad = (number) => String(number).padStart(2, '0');
 
@@ -109,14 +112,17 @@ const footer = () => `
   </footer>
   <a class="whatsapp" href="https://wa.me/525580462775" target="_blank" rel="noreferrer" aria-label="Contactar por WhatsApp">${icon('whatsapp')}</a>`;
 
-const hero = ({ image, eyebrow = 'Consultoría en comercio internacional', title, whiteTitle, copy, facts = true }) => {
+const hero = ({ image, video, poster = image, eyebrow = 'Consultoría en comercio internacional', title, whiteTitle, copy, facts = true }) => {
   const index = Math.max(0, pages.findIndex((item) => item.key === page));
   const prev = pages[(index + pages.length - 1) % pages.length];
   const next = pages[(index + 1) % pages.length];
+  const media = video
+    ? `<video class="hero-video" autoplay muted loop playsinline preload="metadata" poster="${asset(poster)}" aria-hidden="true"><source src="${asset(video)}" type="video/mp4" /></video><div class="hero-video-overlay" aria-hidden="true"></div>`
+    : `<div class="hero-photo" style="background-image:url('${asset(image)}')"></div>`;
   return `
   <section class="hero">
-    <div class="hero-bg" style="background-image:url('${asset(image)}')"></div>
-    <div class="hero-photo" style="background-image:url('${asset(image)}')"></div>
+    <div class="hero-bg" style="background-image:url('${asset(poster)}')"></div>
+    ${media}
     <div class="hero-frame" aria-hidden="true"></div>
     <div class="hero-inner">
       <div class="hero-head">
@@ -167,7 +173,7 @@ const serviceRail = (heading = 'Nuestros servicios', intro = '') => `
       </div>
     </div>
     <div class="rail" data-rail tabindex="0" aria-label="Servicios">
-      ${services.map((service, index) => `<article class="svc"><img src="${asset(service.image)}" alt="${service.title}" loading="lazy" /><span class="svc-num">${pad(index + 1)}<small>/${pad(services.length)}</small></span><div class="svc-glass"><h3>${service.title}</h3><p>${service.text}</p><a class="svc-link" href="${pageLink('contacto/')}#cotizacion">Cotizar <span>${icon('arrow')}</span></a></div></article>`).join('')}
+      ${services.map((service, index) => `<article class="svc"><img src="${asset(service.image)}" alt="${service.title}" /><span class="svc-num">${pad(index + 1)}<small>/${pad(services.length)}</small></span><div class="svc-glass"><h3>${service.title}</h3><p>${service.text}</p><a class="svc-link" href="${pageLink('contacto/')}#cotizacion">Cotizar <span>${icon('arrow')}</span></a></div></article>`).join('')}
     </div>
     <div class="container"><div class="rail-progress"><span data-rail-bar></span></div></div>
   </section>`;
@@ -197,28 +203,28 @@ const contactBlock = () => `
           <p class="form-status" role="status"></p>
         </form>
       </div>
-      <div class="contact-visual" style="background-image:url('${asset('legal.jpg')}')" role="img" aria-label="Alianza comercial y logística">
+      <div class="contact-visual" style="background-image:url('${asset('hero-port.webp')}')" role="img" aria-label="Alianza comercial y logística">
         ${badge('ship.jpg', '#cotizacion', 'Formulario de cotización')}
         <div class="contact-chip"><strong>24/7</strong><span>Seguimiento experto</span></div>
       </div>
     </div>
   </section>`;
 
-const home = () => `${hero({ image: 'trade.jpg', eyebrow: 'Consultoría especializada en', title: 'Comercio', whiteTitle: 'internacional', copy: 'Logística, importaciones, exportaciones y trámites aduanales para hacer crecer tu negocio.' })}
+const home = () => `${hero({ image: 'hero-port.webp', video: 'videos/supply-chain.mp4', poster: 'hero-port.webp', eyebrow: 'Consultoría especializada en', title: 'Comercio', whiteTitle: 'internacional', copy: 'Logística, importaciones, exportaciones y trámites aduanales para hacer crecer tu negocio.' })}
   <main id="contenido">
-    ${glassSplit({ image: 'home-automation.jpg', kicker: 'Tu socio estratégico', heading: 'Lleva tu negocio al mundo con GECOMEX', paragraphs: ['En GECOMEX hacemos que el comercio internacional sea más sencillo y eficiente. Somos especialistas en logística y aduanas, con soluciones integrales para acompañarte en cada paso.', 'De la documentación al traslado, convertimos la complejidad operativa en una ventaja para tu empresa.'], action: `<a class="inline-link" href="${pageLink('exsolv/')}">Conoce GECOMEX ${icon('arrow')}</a>` })}
+    ${glassSplit({ image: 'hero-port.webp', kicker: 'Tu socio estratégico', heading: 'Lleva tu negocio al mundo con GECOMEX', paragraphs: ['En GECOMEX hacemos que el comercio internacional sea más sencillo y eficiente. Somos especialistas en logística y aduanas, con soluciones integrales para acompañarte en cada paso.', 'De la documentación al traslado, convertimos la complejidad operativa en una ventaja para tu empresa.'], action: `<a class="inline-link" href="${pageLink('exsolv/')}">Conoce GECOMEX ${icon('arrow')}</a>` })}
     ${serviceRail('Soluciones que mueven tu negocio', 'Experiencia, cumplimiento y acompañamiento para que tus mercancías lleguen a donde tienen que llegar.')}
-    ${band({ image: 'logistics.jpg', heading: 'Soluciones aduaneras y logísticas para tu comercio internacional.', text: 'Cuéntanos qué necesitas y diseñamos el siguiente paso.', cta: 'Hablar con un experto' })}
+    ${band({ image: 'hero-port.webp', heading: 'Soluciones aduaneras y logísticas para tu comercio internacional.', text: 'Cuéntanos qué necesitas y diseñamos el siguiente paso.', cta: 'Hablar con un experto' })}
     ${contactBlock()}
   </main>`;
 
-const exsolv = () => `${hero({ image: 'logistics.jpg', eyebrow: 'Tu socio estratégico', title: 'Logística', whiteTitle: 'global', copy: 'Transformamos tus desafíos logísticos en soluciones eficientes. Confía en nosotros para llevar tus operaciones al siguiente nivel.' })}
+const exsolv = () => `${hero({ image: 'hero-port.webp', eyebrow: 'Tu socio estratégico', title: 'Logística', whiteTitle: 'global', copy: 'Transformamos tus desafíos logísticos en soluciones eficientes. Confía en nosotros para llevar tus operaciones al siguiente nivel.' })}
   <main id="contenido">
     <section class="section section--light"><div class="container orbit-split">
-      <div class="orbit reveal"><div class="orbit-ring"><span></span></div><img src="${asset('ship.jpg')}" alt="Buque transportando contenedores" loading="lazy" /></div>
+      <div class="orbit reveal"><div class="orbit-ring"><span></span></div><img src="${asset('hero-port.webp')}" alt="Terminal portuaria con buques y contenedores" loading="lazy" /></div>
       <div class="copy reveal"><p class="kicker">GECOMEX</p><h2>Comercio sin fronteras</h2><p>En GECOMEX somos tu aliado estratégico en logística y aduanas internacionales. Nos especializamos en ofrecer soluciones integrales que simplifican los procesos de comercio exterior, garantizando eficiencia, seguridad y cumplimiento normativo.</p><p>Con un equipo experto y tecnología avanzada, convertimos cada reto en una oportunidad para impulsar tu negocio.</p><a class="button" href="${pageLink('contacto/')}">Contáctanos ${icon('arrow')}</a></div>
     </div></section>
-    <section class="section section--dark values"><div class="values-bg" style="background-image:url('${asset('ship.jpg')}')"></div><div class="container"><div class="value-grid">
+    <section class="section section--dark values"><div class="values-bg" style="background-image:url('${asset('hero-port.webp')}')"></div><div class="container"><div class="value-grid">
       <article class="value-card reveal"><span class="value-num">01<small>/03</small></span><span class="value-icon">${icon('check')}</span><h3>Misión</h3><p>Proveer soluciones eficientes en logística y aduanas internacionales, optimizando cada operación con innovación, confianza y servicio personalizado.</p></article>
       <article class="value-card reveal"><span class="value-num">02<small>/03</small></span><span class="value-icon">${icon('chart')}</span><h3>Visión</h3><p>Convertirnos en referentes globales en logística y aduanas, reconocidos por nuestra calidad, tecnología y compromiso con la sostenibilidad.</p></article>
       <article class="value-card reveal"><span class="value-num">03<small>/03</small></span><span class="value-icon">${icon('users')}</span><h3>Valores</h3><p>Excelencia, integridad, innovación y trabajo en equipo para cuidar cada proceso y construir relaciones duraderas.</p></article>
@@ -230,9 +236,9 @@ const exsolv = () => `${hero({ image: 'logistics.jpg', eyebrow: 'Tu socio estrat
     ${contactBlock()}
   </main>`;
 
-const soluciones = () => `${hero({ image: 'trade.jpg', eyebrow: 'Servicios GECOMEX', title: 'Gestión', whiteTitle: 'aduanera', copy: 'Soluciones completas para el comercio internacional. Simplificamos procesos para que tú te enfoques en crecer.' })}
+const soluciones = () => `${hero({ image: 'hero-port.webp', video: 'videos/aerial-terminal.mp4', poster: 'hero-port.webp', eyebrow: 'Servicios GECOMEX', title: 'Gestión', whiteTitle: 'aduanera', copy: 'Soluciones completas para el comercio internacional. Simplificamos procesos para que tú te enfoques en crecer.' })}
   <main id="contenido">
-    ${glassSplit({ image: 'home-automation.jpg', kicker: 'Logística y aduanas internacionales', heading: 'Operaciones claras, negocios en movimiento', paragraphs: ['Contamos con amplia experiencia en despacho aduanal, importaciones, exportaciones, logística eficiente y asesoría especializada para garantizar el cumplimiento de normativas internacionales.'], action: `<a class="button button--white" href="${pageLink('contacto/')}">Contáctanos ${icon('arrow')}</a>` })}
+    ${glassSplit({ image: 'hero-port.webp', kicker: 'Logística y aduanas internacionales', heading: 'Operaciones claras, negocios en movimiento', paragraphs: ['Contamos con amplia experiencia en despacho aduanal, importaciones, exportaciones, logística eficiente y asesoría especializada para garantizar el cumplimiento de normativas internacionales.'], action: `<a class="button button--white" href="${pageLink('contacto/')}">Contáctanos ${icon('arrow')}</a>` })}
     ${serviceRail('Nuestros servicios', 'Elige el acompañamiento que tu operación necesita y déjanos cuidar los detalles.')}
   </main>`;
 
@@ -241,17 +247,17 @@ const blogPosts = [
   { image: 'blog-2.jpg', date: '04', title: 'Guía rápida para simplificar tus operaciones de exportación', excerpt: 'Desde la documentación hasta la logística, reunimos una guía para que tus operaciones de exportación sean mucho más sencillas.', href: 'blog/articulo-exportacion.html' }
 ];
 
-const blog = () => `${hero({ image: 'trade.jpg', eyebrow: 'Ideas para crecer', title: 'Nuestro', whiteTitle: 'blog', copy: 'Consejos, tendencias y guías prácticas para triunfar en el comercio internacional.', facts: false })}
+const blog = () => `${hero({ image: 'hero-port.webp', eyebrow: 'Ideas para crecer', title: 'Nuestro', whiteTitle: 'blog', copy: 'Consejos, tendencias y guías prácticas para triunfar en el comercio internacional.', facts: false })}
   <main id="contenido">
     <section class="section section--light"><div class="container">
       <div class="section-head reveal"><div><p class="kicker">GECOMEX comparte</p><h2>Explora nuestros blogs</h2></div><p>Información clara para tomar mejores decisiones en tu operación global.</p></div>
       <div class="post-list">${blogPosts.map((post) => `<article class="post reveal"><a class="post-media" href="${pageLink(post.href)}" tabindex="-1" aria-hidden="true"><img src="${asset(post.image)}" alt="" loading="lazy" /><span class="post-date"><strong>${post.date}</strong><small>DIC 2024</small></span></a><div class="post-content"><h3><a href="${pageLink(post.href)}">${post.title}</a></h3><p>${post.excerpt}</p><a class="inline-link" href="${pageLink(post.href)}">Leer más ${icon('arrow')}</a></div></article>`).join('')}</div>
     </div></section>
-    ${band({ image: 'blog-2.jpg', heading: '¿Tienes una operación en mente?', text: 'Hablemos de cómo hacerla avanzar.', cta: 'Solicitar asesoría' })}
+    ${band({ image: 'hero-port.webp', heading: '¿Tienes una operación en mente?', text: 'Hablemos de cómo hacerla avanzar.', cta: 'Solicitar asesoría' })}
     ${contactBlock()}
   </main>`;
 
-const contacto = () => `${hero({ image: 'logistics.jpg', eyebrow: 'Estamos para ayudarte', title: 'Contácta', whiteTitle: 'nos', copy: 'Expertos en logística y aduanas para acompañar tu próxima operación.', facts: false })}
+const contacto = () => `${hero({ image: 'hero-port.webp', video: 'videos/worker.mp4', poster: 'hero-port.webp', eyebrow: 'Estamos para ayudarte', title: 'Contácta', whiteTitle: 'nos', copy: 'Expertos en logística y aduanas para acompañar tu próxima operación.', facts: false })}
   <main id="contenido">
     <section class="section section--light"><div class="container"><div class="contact-cards">
       <article class="contact-card reveal"><span class="contact-icon">${icon('phone')}</span><h3>Llámanos</h3><p><a href="tel:+525580462775">5580462775</a><br /><a href="https://wa.me/525580462775" target="_blank" rel="noreferrer">WhatsApp</a></p></article>
