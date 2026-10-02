@@ -155,7 +155,7 @@ const footer = () => `
   <a class="whatsapp" href="https://wa.me/525580462775" target="_blank" rel="noreferrer" aria-label="Contactar por WhatsApp">${icon('whatsapp')}</a>`;
 
 // Full-bleed media with a rounded glass frame floating over it.
-const hero = ({ image, video, poster = image, eyebrow, title, whiteTitle, copy, proof = ['+10', 'años moviendo<br />mercancías'] }) => {
+const hero = ({ image, video, poster = image, eyebrow, title, whiteTitle, copy, proof = ['+28', 'años moviendo<br />mercancías'] }) => {
   const index = Math.max(0, pages.findIndex((item) => item.key === page));
   const prev = pages[(index + pages.length - 1) % pages.length];
   const next = pages[(index + 1) % pages.length];
@@ -224,7 +224,7 @@ const impact = ({ image, number = '03', label = 'Impacto medible', heading, text
         <div class="impact-meta">${kicker(number, label)}<span>gecomex.com.mx</span></div>
         <div class="impact-top"><h2>${heading}</h2><p>${text}</p></div>
         <div class="impact-strip">
-          <div class="strip-block strip-block--blue"><strong data-count="10" data-prefix="+">+10</strong><div><h3>Años de experiencia</h3><p>Acompañando importaciones y exportaciones de empresas mexicanas.</p></div></div>
+          <div class="strip-block strip-block--blue"><strong data-count="28" data-prefix="+">+28</strong><div><h3>Años de experiencia</h3><p>Acompañando importaciones y exportaciones de empresas mexicanas.</p></div></div>
           <div class="strip-block strip-block--steel"><strong data-count="7">7</strong><div><h3>Servicios especializados</h3><p>Del despacho aduanal a la asesoría legal, en un mismo equipo.</p></div></div>
         </div>
       </div>
