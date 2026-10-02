@@ -46,13 +46,13 @@ const pages = [
 ];
 
 const services = [
-  { image: 'dispatch.jpg', title: 'Despacho aduanal', text: 'Gestionamos tus trámites de importación y exportación con precisión, seguimiento y cumplimiento normativo.', points: ['Pedimentos de importación y exportación', 'Revisión documental previa', 'Seguimiento en tiempo real del despacho'] },
-  { image: 'advice.jpg', title: 'Asesoría en comercio internacional', text: 'Optimizamos tu operación con experiencia en normativas, regulaciones y mejores prácticas para crecer.', points: ['Diagnóstico de tu operación actual', 'Tratados y beneficios arancelarios', 'Estrategia para nuevos mercados'] },
-  { image: 'logistics.jpg', title: 'Logística y transporte', text: 'Coordinamos cada movimiento para que tus mercancías lleguen de manera segura, puntual y eficiente.', points: ['Carga marítima, aérea y terrestre', 'Coordinación puerta a puerta', 'Monitoreo de embarques'] },
-  { image: 'permits.jpg', title: 'Permisos y regulaciones', text: 'Facilitamos el cumplimiento de requisitos y permisos para que tu operación avance sin fricciones.', points: ['NOMs, permisos previos y avisos', 'Gestión ante dependencias', 'Padrón de importadores'] },
-  { image: 'classification.jpg', title: 'Clasificación arancelaria', text: 'Identificamos la fracción correcta para que tus productos cumplan con las normas aplicables.', points: ['Determinación de fracción arancelaria', 'Análisis de regulaciones no arancelarias', 'Dictámenes técnicos'] },
-  { image: 'audit.jpg', title: 'Auditorías y consultoría', text: 'Revisamos tus procesos de comercio exterior para detectar oportunidades y reducir riesgos.', points: ['Revisión de expedientes y pedimentos', 'Detección de riesgos y contingencias', 'Plan de mejora y cumplimiento'] },
-  { image: 'legal.jpg', title: 'Asesoría legal y jurídica', text: 'Te acompañamos ante dudas, disputas y decisiones estratégicas en materia aduanera.', points: ['Atención a PAMAs y requerimientos', 'Defensa en procedimientos aduaneros', 'Consultoría en decisiones estratégicas'] }
+  { image: 'dispatch.jpg', title: 'Despacho Aduanal', text: 'En Gecomex, nos encargamos de gestionar todos los trámites necesarios para la importación y exportación de tus mercancías, garantizando el cumplimiento de normativas y procedimientos aduaneros. Nuestra experiencia y conocimiento minimizan riesgos y optimizan tiempos, brindándote soluciones para tus productos.' },
+  { image: 'advice.jpg', title: 'Asesoría en Comercio Internacional', text: 'Optimiza tus operaciones globales con nuestra asesoría experta en comercio internacional. En Gecomex, te brindamos orientación estratégica sobre normativas, regulaciones y mejores prácticas en el ámbito global. Nuestro equipo especializado te ayudará a tomar decisiones informadas, maximizando oportunidades para tu negocio.' },
+  { image: 'logistics.jpg', title: 'Logística y Transporte', text: 'Asegura la eficiencia en el traslado de tus mercancías con nuestros servicios de logística y transporte. En Gecomex, gestionamos cada etapa de la cadena de suministro, optimizando rutas y tiempos de entrega para que tus productos lleguen de manera segura y puntual. Garantizamos soluciones logísticas adaptadas a tus necesidades.' },
+  { image: 'permits.jpg', title: 'Gestión de Permisos y Regulaciones', text: 'Facilitamos el cumplimiento de normativas internacionales con nuestro servicio de gestión de permisos y regulaciones. En Gecomex, nos encargamos de tramitar y obtener los permisos necesarios para la importación y exportación de tus productos, asegurando que cada operación se ajuste a las leyes.' },
+  { image: 'classification.jpg', title: 'Clasificación Arancelaria', text: 'Te ofrecemos un servicio especializado de clasificación arancelaria para garantizar que tus productos se clasifiquen correctamente según las normativas internacionales. Nos encargamos de asignar la fracción arancelaria correcta a tus mercancías asegurando el cumplimiento de las regulaciones aduaneras.' },
+  { image: 'audit.jpg', title: 'Auditorías y Consultoría', text: 'En Gecomex, ofrecemos auditorías y consultoría especializada para optimizar tus procesos de comercio internacional. Nuestro equipo revisa y evalúa tus operaciones aduaneras, identificando áreas de mejora y asegurando el cumplimiento de normativas locales e internacionales. Optimiza tus operaciones internacionales.' },
+  { image: 'legal.jpg', title: 'Asesoría Legal/Jurídica en Comercio Exterior o Materia Aduanera', text: 'En Gecomex, brindamos asesoría legal y jurídica especializada en comercio exterior y materia aduanera. Nuestro equipo de expertos te ayuda a garantizar el cumplimiento normativo, resolver disputas legales y proteger los intereses de tu empresa en todas tus operaciones internacionales. Asegura la legalidad y solidez de tus procesos comerciales con nosotros.' }
 ];
 
 const sectors = [
@@ -251,7 +251,6 @@ const serviceList = (heading, intro = '', number = '04') => `
               <h3>${service.title}</h3>
               <i class="svc-bar"></i>
               <p>${service.text}</p>
-              <ul class="svc-points">${service.points.map((point) => `<li>${icon('check')}${point}</li>`).join('')}</ul>
               <a class="svc-link" href="${pageLink('contacto/')}#cotizacion">Cotizar este servicio ${icon('arrowUpRight')}</a>
             </div>
           </article>`).join('')}

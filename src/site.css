@@ -829,10 +829,7 @@ body.show-float .whatsapp:hover { transform: scale(1.08); }
 .svc-media { position: relative; isolation: isolate; overflow: hidden; margin: 0; aspect-ratio: 4 / 3.4; border-radius: var(--radius-lg); background: var(--slate); }
 .svc-media::after { content: ''; position: absolute; inset: 0; z-index: -1; background: linear-gradient(180deg, rgba(8, 16, 36, 0) 55%, rgba(8, 18, 44, .55) 100%); }
 .svc-content h3 { margin: 0; font-size: clamp(1.5rem, 2.2vw, 2rem); font-weight: 700; line-height: 1.15; }
-.svc-content > p { margin: 18px 0 0; max-width: 460px; color: rgba(255, 255, 255, .78); font-size: 1rem; }
-.svc-points { display: grid; gap: 10px; margin: 22px 0 0; padding: 0; list-style: none; }
-.svc-points li { display: flex; align-items: center; gap: 12px; color: rgba(255, 255, 255, .9); font-size: .94rem; font-weight: 500; }
-.svc-points svg { flex: none; width: 22px; height: 22px; padding: 4px; border: 1px solid rgba(143, 196, 255, .35); border-radius: 50%; color: var(--sky); }
+.svc-content > p { margin: 18px 0 0; max-width: 520px; color: rgba(255, 255, 255, .78); font-size: 1rem; }
 .svc-content .svc-link { margin-top: 28px; padding: 12px 20px; border: 1px solid rgba(255, 255, 255, .25); border-radius: 999px; transition: background .3s ease, color .3s ease, border-color .3s ease; }
 .svc-content .svc-link:hover { background: #fff; border-color: #fff; color: var(--ink); }
 
