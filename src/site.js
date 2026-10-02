@@ -46,13 +46,13 @@ const pages = [
 ];
 
 const services = [
-  { image: 'dispatch.jpg', title: 'Despacho aduanal', text: 'Gestionamos tus trámites de importación y exportación con precisión, seguimiento y cumplimiento normativo.' },
-  { image: 'advice.jpg', title: 'Asesoría en comercio internacional', text: 'Optimizamos tu operación con experiencia en normativas, regulaciones y mejores prácticas para crecer.' },
-  { image: 'logistics.jpg', title: 'Logística y transporte', text: 'Coordinamos cada movimiento para que tus mercancías lleguen de manera segura, puntual y eficiente.' },
-  { image: 'permits.jpg', title: 'Permisos y regulaciones', text: 'Facilitamos el cumplimiento de requisitos y permisos para que tu operación avance sin fricciones.' },
-  { image: 'classification.jpg', title: 'Clasificación arancelaria', text: 'Identificamos la fracción correcta para que tus productos cumplan con las normas aplicables.' },
-  { image: 'audit.jpg', title: 'Auditorías y consultoría', text: 'Revisamos tus procesos de comercio exterior para detectar oportunidades y reducir riesgos.' },
-  { image: 'legal.jpg', title: 'Asesoría legal y jurídica', text: 'Te acompañamos ante dudas, disputas y decisiones estratégicas en materia aduanera.' }
+  { image: 'dispatch.jpg', title: 'Despacho aduanal', text: 'Gestionamos tus trámites de importación y exportación con precisión, seguimiento y cumplimiento normativo.', points: ['Pedimentos de importación y exportación', 'Revisión documental previa', 'Seguimiento en tiempo real del despacho'] },
+  { image: 'advice.jpg', title: 'Asesoría en comercio internacional', text: 'Optimizamos tu operación con experiencia en normativas, regulaciones y mejores prácticas para crecer.', points: ['Diagnóstico de tu operación actual', 'Tratados y beneficios arancelarios', 'Estrategia para nuevos mercados'] },
+  { image: 'logistics.jpg', title: 'Logística y transporte', text: 'Coordinamos cada movimiento para que tus mercancías lleguen de manera segura, puntual y eficiente.', points: ['Carga marítima, aérea y terrestre', 'Coordinación puerta a puerta', 'Monitoreo de embarques'] },
+  { image: 'permits.jpg', title: 'Permisos y regulaciones', text: 'Facilitamos el cumplimiento de requisitos y permisos para que tu operación avance sin fricciones.', points: ['NOMs, permisos previos y avisos', 'Gestión ante dependencias', 'Padrón de importadores'] },
+  { image: 'classification.jpg', title: 'Clasificación arancelaria', text: 'Identificamos la fracción correcta para que tus productos cumplan con las normas aplicables.', points: ['Determinación de fracción arancelaria', 'Análisis de regulaciones no arancelarias', 'Dictámenes técnicos'] },
+  { image: 'audit.jpg', title: 'Auditorías y consultoría', text: 'Revisamos tus procesos de comercio exterior para detectar oportunidades y reducir riesgos.', points: ['Revisión de expedientes y pedimentos', 'Detección de riesgos y contingencias', 'Plan de mejora y cumplimiento'] },
+  { image: 'legal.jpg', title: 'Asesoría legal y jurídica', text: 'Te acompañamos ante dudas, disputas y decisiones estratégicas en materia aduanera.', points: ['Atención a PAMAs y requerimientos', 'Defensa en procedimientos aduaneros', 'Consultoría en decisiones estratégicas'] }
 ];
 
 const sectors = [
@@ -234,19 +234,30 @@ const impact = ({ image, number = '03', label = 'Impacto medible', heading, text
 const marquee = (items = services.map((service) => service.title)) => `
   <div class="marquee" aria-hidden="true"><div class="marquee-track">${[0, 1].map(() => `<span>${items.map((item) => `${item}<i>✦</i>`).join('')}</span>`).join('')}</div></div>`;
 
-const serviceRail = (heading, intro = '', number = '04') => `
+const serviceList = (heading, intro = '', number = '04') => `
   <section class="section section--night" id="servicios">
-    <div class="container rail-head reveal">
-      <div>${kicker(number, 'Lo que hacemos')}<h2>${heading}</h2></div>
-      <div class="rail-aside">
-        ${intro ? `<p>${intro}</p>` : ''}
-        <div class="rail-controls"><button class="square-btn" type="button" data-rail-prev aria-label="Servicio anterior">${icon('arrowLeft')}</button><span class="rail-count"><strong data-rail-current>01</strong>/${pad(services.length)}</span><button class="square-btn" type="button" data-rail-next aria-label="Servicio siguiente">${icon('arrow')}</button></div>
+    <div class="container">
+      <div class="section-head reveal"><div>${kicker(number, 'Lo que hacemos')}<h2>${heading}</h2></div>${intro ? `<p>${intro}</p>` : ''}</div>
+      <div class="svc-layout">
+        <nav class="svc-index" aria-label="Índice de servicios">
+          <span class="svc-index-label">${pad(services.length)} servicios</span>
+          <ol>${services.map((service, index) => `<li><a href="#servicio-${pad(index + 1)}" data-svc-link><span>${pad(index + 1)}</span>${service.title}</a></li>`).join('')}</ol>
+        </nav>
+        <div class="svc-list">
+          ${services.map((service, index) => `<article class="svc-row reveal" id="servicio-${pad(index + 1)}">
+            <figure class="svc-media"><img src="${asset(service.image)}" alt="${service.title}" loading="lazy" /><span class="svc-tag">${pad(index + 1)} / ${pad(services.length)}</span></figure>
+            <div class="svc-content">
+              <span class="svc-num">Servicio <b>${pad(index + 1)}</b></span>
+              <h3>${service.title}</h3>
+              <i class="svc-bar"></i>
+              <p>${service.text}</p>
+              <ul class="svc-points">${service.points.map((point) => `<li>${icon('check')}${point}</li>`).join('')}</ul>
+              <a class="svc-link" href="${pageLink('contacto/')}#cotizacion">Cotizar este servicio ${icon('arrowUpRight')}</a>
+            </div>
+          </article>`).join('')}
+        </div>
       </div>
     </div>
-    <div class="rail" data-rail tabindex="0" aria-label="Servicios">
-      ${services.map((service, index) => `<article class="svc"><img src="${asset(service.image)}" alt="${service.title}" loading="lazy" /><span class="svc-tag">GECOMEX</span><div class="svc-body"><span class="svc-num">Parte <b>${pad(index + 1)}</b></span><h3>${service.title}</h3><i class="svc-bar"></i><p>${service.text}</p><a class="svc-link" href="${pageLink('contacto/')}#cotizacion">Cotizar ${icon('arrowUpRight')}</a></div></article>`).join('')}
-    </div>
-    <div class="container"><div class="rail-progress"><span data-rail-bar></span></div></div>
   </section>`;
 
 const band = ({ image, heading, text, cta, word = 'MÉXICO' }) => `
@@ -304,7 +315,7 @@ const home = () => `${hero({ image: 'hero-port.webp', video: 'videos/supply-chai
     ${split({ image: 'hero-port.webp', label: 'Tu socio estratégico', heading: 'Lleva tu negocio <em>al mundo</em>', word: 'GLOBAL', side: 'ADUANAS', paragraphs: ['En GECOMEX hacemos que el comercio internacional sea más sencillo y eficiente. Somos especialistas en logística y aduanas, con soluciones integrales para acompañarte en cada paso.', 'De la documentación al traslado, convertimos la complejidad operativa en una ventaja para tu empresa.'], action: btn(pageLink('exsolv/'), 'Conoce GECOMEX', 'white') })}
     ${impact({ image: 'ship.jpg', heading: 'Probados. Confiables. <em>Escalables.</em>', text: 'Resultados reales que impulsan la eficiencia, la confianza y el crecimiento global de tu empresa.' })}
     ${marquee()}
-    ${serviceRail('Soluciones que <em>mueven</em> tu negocio', 'Experiencia, cumplimiento y acompañamiento para que tus mercancías lleguen a donde tienen que llegar.')}
+    ${serviceList('Soluciones que <em>mueven</em> tu negocio', 'Experiencia, cumplimiento y acompañamiento para que tus mercancías lleguen a donde tienen que llegar.')}
     ${band({ image: 'hero-port.webp', heading: 'Soluciones aduaneras y logísticas para tu comercio internacional.', text: 'Cuéntanos qué necesitas y diseñamos el siguiente paso.', cta: 'Hablar con un experto' })}
     ${contactBlock()}
   </main>`;
@@ -336,7 +347,7 @@ const soluciones = () => `${hero({ image: 'hero-port.webp', video: 'videos/aeria
   <main id="contenido">
     ${split({ image: 'dispatch.jpg', label: 'Logística y aduanas internacionales', heading: 'Operaciones claras, <em>negocios en movimiento</em>', word: 'SERVICIOS', side: 'ADUANAS', paragraphs: ['Contamos con amplia experiencia en despacho aduanal, importaciones, exportaciones, logística eficiente y asesoría especializada para garantizar el cumplimiento de normativas internacionales.'], action: btn(pageLink('contacto/'), 'Contáctanos', 'white') })}
     ${marquee()}
-    ${serviceRail('Nuestros <em>servicios</em>', 'Elige el acompañamiento que tu operación necesita y déjanos cuidar los detalles.', '03')}
+    ${serviceList('Nuestros <em>servicios</em>', 'Elige el acompañamiento que tu operación necesita y déjanos cuidar los detalles.', '03')}
     ${process('04')}
     ${band({ image: 'logistics.jpg', heading: 'Tu carga, en manos expertas.', text: 'Diseñamos una solución a la medida de tu operación.', cta: 'Solicitar asesoría', word: 'ADUANAS' })}
     ${contactBlock('05')}
@@ -460,25 +471,14 @@ searchToggle?.addEventListener('click', () => {
   if (open) searchPanel.querySelector('input')?.focus();
 });
 
-document.querySelectorAll('[data-rail]').forEach((rail) => {
-  const section = rail.closest('section');
-  const current = section.querySelector('[data-rail-current]');
-  const bar = section.querySelector('[data-rail-bar]');
-  const cards = [...rail.children];
-  const step = () => cards[0].getBoundingClientRect().width + parseFloat(getComputedStyle(rail).columnGap || 0);
-  const update = () => {
-    const max = rail.scrollWidth - rail.clientWidth;
-    const progress = max > 0 ? rail.scrollLeft / max : 1;
-    const index = max > 0 ? Math.round(progress * (cards.length - 1)) : 0;
-    current.textContent = pad(index + 1);
-    bar.style.width = `${Math.max(100 / cards.length, progress * 100)}%`;
-  };
-  section.querySelector('[data-rail-prev]').addEventListener('click', () => rail.scrollBy({ left: -step(), behavior: 'smooth' }));
-  section.querySelector('[data-rail-next]').addEventListener('click', () => rail.scrollBy({ left: step(), behavior: 'smooth' }));
-  rail.addEventListener('scroll', update, { passive: true });
-  window.addEventListener('resize', update);
-  update();
-});
+const svcLinks = [...document.querySelectorAll('[data-svc-link]')];
+if (svcLinks.length) {
+  const svcObserver = new IntersectionObserver((entries) => entries.forEach((entry) => {
+    if (!entry.isIntersecting) return;
+    svcLinks.forEach((link) => link.classList.toggle('is-active', link.getAttribute('href') === `#${entry.target.id}`));
+  }), { rootMargin: '-45% 0px -50% 0px' });
+  document.querySelectorAll('.svc-row').forEach((row) => svcObserver.observe(row));
+}
 
 document.querySelectorAll('[data-contact-form]').forEach((form) => {
   form.addEventListener('submit', (event) => {
